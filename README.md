@@ -63,6 +63,7 @@ python main.py
 
 ### Project Structure
 
+```
 push-n-takes/
 ├── main.py              # Main game loop
 ├── engine/
@@ -72,6 +73,7 @@ push-n-takes/
 │   ├── pawn.py          # Pawn model
 │   └── renderer.py      # Terminal UI rendering
 └── README.md
+```
 
 ## AI details
 
