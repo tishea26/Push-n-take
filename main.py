@@ -17,7 +17,7 @@ def parse_command(cmd):
         try:
             return ("move", int(parts[1])), None
         except ValueError:
-            return None, "ID invalide."
+            return None, "invalid ID"
 
     if len(parts) == 3 and parts[0].lower() == "a":
         try:
@@ -25,9 +25,9 @@ def parse_command(cmd):
             target_id = int(parts[2])
             return ("attack", attacker_id, target_id), None
         except ValueError:
-            return None, "ID invalide."
+            return None, "invalid ID"
 
-    return None, "Commande inconnue ou mal formatée."
+    return None, "invalid command"
 
 def main():
     board = Board()
@@ -41,17 +41,17 @@ def main():
         render(board,turn, error_message)
 
         if board.all_blocked(Tile.WHITE) and board.all_blocked(Tile.PURPLE):
-            print("Match nul !")
+            print("It's a draw !")
             break
         if board.win(Tile.WHITE):
-            print("WHITE gagne !")
+            print("WHITE wins !")
             break
         if board.win(Tile.PURPLE):
-            print("PURPLE gagne !")
+            print("PURPLE wins !")
             break
 
         if board.all_blocked(turn):
-            error_message = f"{turn.name} est bloqué et perd son tour."
+            error_message = f"{turn.name} is blocked and loses its turn."
             turn = switch_turn(turn)
             continue
 
@@ -64,7 +64,7 @@ def main():
                 continue
 
             if parsed is None:
-                error_message = "Commande invalide."
+                error_message = "invalid command."
                 continue
 
             action = parsed[0]
@@ -73,7 +73,7 @@ def main():
                 display_id = parsed[1]
                 pawn = board.get_pawn_by_display(display_id, turn)
                 if pawn is None:
-                    error_message = f"Aucun pion avec ce numéro : {display_id}"
+                    error_message = f"No pawn with this ID: {display_id}"
                     continue
 
                 moves = board.possible_moves(pawn.id)
@@ -85,7 +85,7 @@ def main():
                         break
 
                 if not found:
-                    error_message = f"Le pion {display_id} ne peut pas avancer."
+                    error_message = f"The pawn {display_id} cannot move forward."
                     continue
 
             elif action == "attack":
@@ -94,13 +94,13 @@ def main():
 
                 attacker = board.get_pawn_by_display(attacker_display, turn)
                 if attacker is None:
-                    error_message = f"Aucun pion avec ce numéro : {attacker_display}"
+                    error_message = f"No pawn with this ID: {attacker_display}"
                     continue
 
                 enemy_color = Tile.PURPLE
                 target = board.get_pawn_by_display(target_display, enemy_color)
                 if target is None:
-                    error_message = f"Aucun pion cible avec ce numéro : {target_display}"
+                    error_message = f"No target pawn with this ID: {target_display}"
                     continue
 
                 ni, nj = target.i, target.j
@@ -113,7 +113,7 @@ def main():
                         break
 
                 if not found:
-                    error_message = f"Le pion {attacker_display} ne peut pas attaquer le pion {target_display}"
+                    error_message = f"The pawn {attacker_display} cannot attack the pawn {target_display}"
                     continue
 
             error_message = None

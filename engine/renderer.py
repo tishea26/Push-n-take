@@ -20,7 +20,7 @@ def build_header(turn):
     t.append("Push'n'takes", style="bold magenta")
     t.append(" ==========\n\n", style=COLORS["cyan"])
 
-    t.append(" Tour : ", style=COLORS["yellow"])
+    t.append(" Turn : ", style=COLORS["yellow"])
     if turn == Tile.WHITE:
         t.append("WHITE\n\n", style=f"bold {COLORS["white"]}")
     else:
@@ -56,13 +56,13 @@ def draw_board(board):
 def build_error(error_message):
     t = Text()
     if error_message:
-        t.append(" ⚠ ERREUR : ", style=f"bold {COLORS["red"]}")
+        t.append(" ⚠ ERROR : ", style=f"bold {COLORS["red"]}")
         t.append(error_message + "\n\n", style=COLORS["red"])
     return t
 
 def build_dead(board):
     t = Text()
-    t.append(" Pions capturés :\n", style=COLORS["yellow"])
+    t.append(" Captured pawns :\n", style=COLORS["yellow"])
 
     t.append("  WHITE :  ", style=f"bold {COLORS["white"]}")
     t.append(" ".join(map(str, board.dead_white)) or "-", style=COLORS["cyan"])
@@ -77,14 +77,13 @@ def build_dead(board):
 def build_commands(turn):
     t = Text()
     if turn == Tile.PURPLE:
-        t.append("Je réfléchis...\n\n")
+        t.append("Thinking...\n\n")
         return t
 
     t.append("  [m <id>]", style=COLORS["cyan"])
-    t.append("        Avancer\n", style=COLORS["blue"])
-
+    t.append("        Move forward\n", style=COLORS["blue"])
     t.append("  [a <id1> <id2>]", style=COLORS["cyan"])
-    t.append(" Attaquer le pion <id2> avec le pion <id1>\n", style=COLORS["blue"])
+    t.append(" Attack <id2> pawn with <id1> pawn\n", style=COLORS["blue"])
 
     return t
 
